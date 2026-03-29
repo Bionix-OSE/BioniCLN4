@@ -1,4 +1,4 @@
-package ose.bionix.pe;
+package ose.bionix.pe.tictactoe;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
