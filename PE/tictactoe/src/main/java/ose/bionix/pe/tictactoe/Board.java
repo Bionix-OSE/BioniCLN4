@@ -60,7 +60,7 @@ public class Board {
 				int idx = r*3 + c;
 				int v = cells[idx];
 				String ch;
-				if (v == EMPTY) ch = Integer.toString(idx + 1);
+				if (v == EMPTY) ch = "-";
 				else if (v == X) ch = "X";
 				else ch = "O";
 				sb.append(' ').append(ch).append(' ').append('|');

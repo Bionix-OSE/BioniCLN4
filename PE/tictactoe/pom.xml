@@ -4,7 +4,7 @@
   <groupId>ose.bionix.pe</groupId>
   <artifactId>tictactoe</artifactId>
   <packaging>jar</packaging>
-  <version>0.2.1</version>
+  <version>0.2.3</version>
   <name>tictactoe</name>
   <url>http://maven.apache.org</url>
   <dependencies>
