@@ -51,23 +51,4 @@ public class Board {
 		return -1;
 	}
 
-	public String toDisplayString() {
-		StringBuilder sb = new StringBuilder();
-		for (int r = 0; r < 3; r++) {
-			sb.append("+---+---+---+\n");
-			sb.append("|");
-			for (int c = 0; c < 3; c++) {
-				int idx = r*3 + c;
-				int v = cells[idx];
-				String ch;
-				if (v == EMPTY) ch = "-";
-				else if (v == X) ch = "X";
-				else ch = "O";
-				sb.append(' ').append(ch).append(' ').append('|');
-			}
-			sb.append('\n');
-		}
-		sb.append("+---+---+---+");
-		return sb.toString();
-	}
 }

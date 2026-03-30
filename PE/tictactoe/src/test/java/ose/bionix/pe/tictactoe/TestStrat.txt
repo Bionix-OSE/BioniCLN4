@@ -1,0 +1,9 @@
+Test strategy (v0.2.3)
+WHAT:
+- We are testing each component in the game's code - and eventually the whole game, to see if they work as expected.
+HOW:
+1. Unit test: Independently and hierarchially test classes that runs the core logic (Board <- *Player, *IO) 
+2. Integration test: Now test the thing that glues them together (Game <- Main)
+3. Functional test: Compile the whole project and simulate a full game (either by manually playing or by mocking up input)
+
+(That's all I can think of for now)
