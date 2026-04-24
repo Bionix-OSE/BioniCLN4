@@ -1,0 +1,5 @@
+DATAGRAM/PACKET FORMAT:
+[4 bytes for sequence number] [1 byte for data type] [data bytes]
+
+After the server had processed sequence number (which allows it to display the data in order), the 5th byte in the datagram is what going to let it determine the data type for the remainder of bytes it's going to process next (and also doubles as the exit signal with "data type" 4).
+...If I had time to write the server code it would have been more clear. I'm so sorry. 

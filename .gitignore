@@ -97,3 +97,11 @@ Thumbs.db
 # Temporary folders
 tmp/
 temp/
+
+# NodeJS stuffs
+dist
+node_modules
+.env
+.DS_Store
+.idea/
+.pnpm-store/

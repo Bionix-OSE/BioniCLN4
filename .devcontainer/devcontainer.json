@@ -1,6 +1,11 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/java",
-  "features": {
-    "ghcr.io/devcontainers-extra/features/maven-sdkman:2": {}
-  }
+	"image": "mcr.microsoft.com/devcontainers/universal:linux",
+	"features": {
+		"ghcr.io/devcontainers-extra/features/maven-sdkman:2": {}
+	},
+	"customizations": {
+		"codespaces": {
+			"disableAutomaticConfiguration": true
+		}
+	}
 }

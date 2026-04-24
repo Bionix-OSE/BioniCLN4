@@ -1,0 +1,17 @@
+{
+  "name": "restjs-dsa3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6"
+  }
+}

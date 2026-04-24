@@ -1,0 +1,18 @@
+<html>
+<head>
+	<title>Chat App</title>
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+	<div class="container">
+		<div id="messages"></div>
+		<div class="message-field">
+			<input class="textbox" id="username-field" placeholder="Username" value="Chatter"/>
+			<input class="textbox" id="chatbox"/>
+			<button id="send" class="btn" onclick="sendMessage()">Send</button>
+		</div>
+	</div>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="assets/scripts/client.js"></script>
+</body>
+</html>
