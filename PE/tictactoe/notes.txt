@@ -1,0 +1,16 @@
+Keywords & Principles
+- SOLID: 
+	+ Single Responsibility
+	+ Open-Closed
+	+ Liskov Substitution (Objects of a superclass should be replaceable with objects of its subclasses without breaking the application. Subtypes must behave in a way that the client expects from the base type.)
+	+ Intergrate Segregation
+	+ Dependency Inversion
+- Loose coupled
+- (Test) Coverage
+
+Test strategy (v0.2.4.1)
+1. Unit test: Test each unit (class) in ISOLATION - Specifically its methods. The goal is to see if those methods changes state as expected. 
+- Start with smallest units (ones that doesn't depend on anything else) first, then go up. 
+- Use Junit (for now).
+- Keep tests as simple as possible. Test only the things that needs to be tested (don't invoke extra logics)
+- Tip to test output: Have code write to ByteArray, then in test read back from that ByteArray

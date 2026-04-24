@@ -1,12 +1,11 @@
 package ose.bionix.pe.tictactoe;
 
 public class Board {
-	public static final int EMPTY = -1;
+	public static final int EMPTY = 0;
 	public static final int X = 1; // Player (human)
-	public static final int O = 0; // Computer
+	public static final int O = 2; // Computer
 
 	private int[] cells;
-
 	public Board() {
 		cells = new int[9];
 		for (int i = 0; i < 9; i++) {
@@ -14,22 +13,22 @@ public class Board {
 		}
 	}
 
-	public boolean makeMove(int pos, int mark) {
-		if (pos < 0 || pos >= 9) return false;
-		if (cells[pos] != EMPTY) return false;
-		cells[pos] = mark;
-		return true;
-	}
-
 	public int getCell(int pos) {
 		if (pos < 0 || pos >= 9) return EMPTY;
 		return cells[pos];
 	}
-
-	public boolean isFull() {
+	public boolean isCellOccupied(int pos) {
+		return getCell(pos) != EMPTY;
+	}
+	public boolean isBoardFull() {
 		for (int i = 0; i < 9; i++) {
 			if (cells[i] == EMPTY) return false;
 		}
+		return true;
+	}
+	public boolean setMove(int pos, int mark) {
+		if (isCellOccupied(pos)) return false;
+		cells[pos] = mark;
 		return true;
 	}
 
@@ -44,11 +43,6 @@ public class Board {
 			if (a != EMPTY && a == b && b == c) return a; // returns X (1) or O (0)
 		}
 		return EMPTY; // no winner yet
-	}
-
-	public int firstAvailableCell() {
-		for (int i = 0; i < 9; i++) if (cells[i] == EMPTY) return i;
-		return -1;
 	}
 
 }

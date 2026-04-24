@@ -1,17 +1,15 @@
 package ose.bionix.pe.tictactoe;
 
-public class Player {
-	private final int mark; // Board.X or Board.O
-	private final MoveStrategy strategy;
+public abstract class Player {
+	public static final int QUIT = -1;
 
-	public Player(int mark, MoveStrategy strategy) {
+	private final int mark; // 1 / 2
+
+	public Player(int mark) {
 		this.mark = mark;
-		this.strategy = strategy;
 	}
 
 	public int getMark() { return mark; }
-
-	public int chooseMove(Board board) {
-		return strategy.chooseMove(board);
-	}
+	public abstract int chooseMove(Board board);
 }
+	

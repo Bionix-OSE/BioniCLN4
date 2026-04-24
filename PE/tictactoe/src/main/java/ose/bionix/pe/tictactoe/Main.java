@@ -1,14 +1,19 @@
 package ose.bionix.pe.tictactoe;
 
+import java.io.PrintStream;
+
 public class Main {
 	public static void main(String[] args) {
-		boolean secondPlayerStarts = false;
-		if (args.length > 0 && "2".equals(args[0])) secondPlayerStarts = true;
+		if (args.length != 1 || (!"1".equals(args[0]) && !"2".equals(args[0]))) {
+			System.out.println("Please, input a valid option [1-2]");
+			return;
+		}
 
-		UI ui = new ConsoleUI();
+		boolean secondPlayerStarts = "2".equals(args[0]);
+		UI ui = new UI(System.out);
 		Board board = new Board();
-		Player p1 = new Player(Board.X, new InteractiveMoveStrategy(ui));
-		Player p2 = new Player(Board.O, new FirstAvailableStrategy());
+		Player p1 = new HumanPlayer(Board.X, ui, new java.util.Scanner(System.in));
+		Player p2 = new CPUPlayer(Board.O);
 
 		Game game = new Game(board, ui, p1, p2);
 		game.run(secondPlayerStarts);
