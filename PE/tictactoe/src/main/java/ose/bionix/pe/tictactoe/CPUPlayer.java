@@ -6,8 +6,9 @@ public class CPUPlayer extends Player {
 	}
 
 	@Override
-	public int chooseMove(Board board) {
-		for (int i = 0; i < 9; i++) if (board.getCell(i) == -1) return i;
-		return -1;
+	public boolean chooseMove(Board board) {
+		int targetCell = board.getFirstFreeCell();
+		board.place(targetCell, mark);
+		return true;
 	}
 }

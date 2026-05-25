@@ -1,21 +1,33 @@
 package ose.bionix.pe.tictactoe;
 
+import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+		PrintStream output = System.out;
+
 		if (args.length != 1 || (!"1".equals(args[0]) && !"2".equals(args[0]))) {
-			System.out.println("Please, input a valid option [1-2]");
+			System.out.println("Please input a valid first player [1-2]");
 			return;
 		}
+		int firstPlayer = Integer.parseInt(args[0]);
 
-		boolean secondPlayerStarts = "2".equals(args[0]);
-		UI ui = new UI(System.out);
-		Board board = new Board();
-		Player p1 = new HumanPlayer(Board.X, ui, new java.util.Scanner(System.in));
-		Player p2 = new CPUPlayer(Board.O);
+		// Infrastructue for test units that we surely are gonna write at some point
+		ByteArrayOutputStream captureBuffer = new ByteArrayOutputStream();
+		PrintStream captureStream = new PrintStream(captureBuffer);
+		captureStream.flush();
 
-		Game game = new Game(board, ui, p1, p2);
-		game.run(secondPlayerStarts);
+		Board board = new Board(output);
+		Scanner input = new Scanner(System.in);
+		HumanPlayer p1 = new HumanPlayer(board.X, input, output);
+		CPUPlayer p2 = new CPUPlayer(board.O);
+
+		Game game = new Game(board, p1, p2, output);
+		game.run(firstPlayer);
+
+		input.close();
+		captureStream.close();
 	}
 }

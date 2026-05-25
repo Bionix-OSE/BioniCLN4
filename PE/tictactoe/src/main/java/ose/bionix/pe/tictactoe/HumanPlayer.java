@@ -1,49 +1,56 @@
 package ose.bionix.pe.tictactoe;
 
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class HumanPlayer extends Player {
-	private final UI ui;
 	private final Scanner input;
+	private final PrintStream output;
 
-	public HumanPlayer(int mark, UI ui, Scanner input) {
+	public HumanPlayer(int mark, Scanner input) {
+		this(mark, input, System.out);
+	}
+	public HumanPlayer(int mark, Scanner input, PrintStream output) {
 		super(mark);
-		this.ui = ui;
 		this.input = input;
+		this.output = output;
 	}
 
 	@Override
-	public int chooseMove(Board board) {
+	public boolean chooseMove(Board board) {
 		while (true) {
-			String line = input.nextLine().trim();
+			String line = null;
+			output.print("Input a position [1-9]: ");
+			try {
+				line = input.nextLine().trim();
+			} catch (RuntimeException ex) {
+				output.println("There was an error handling user input.");
+			}
 			if ("q".equals(line)) {
-				ui.print("End of the game");
-				return QUIT;
+				output.println("Game over.");
+				return false;
 			}
 
 			int choice;
 			try {
 				choice = Integer.parseInt(line);
 			} catch (NumberFormatException ex) {
-				ui.print("Please, input a valid number [1-9]");
-				ui.print("Player#1's turn");
-				continue;
-			}
-
-			if (choice < 1 || choice > 9) {
-				ui.print("Please, input a valid number [1-9]");
-				ui.print("Player#1's turn");
+				output.println("Please input a valid number [1-9]");
 				continue;
 			}
 
 			int pos = choice - 1;
+			if (board.getCell(pos) == board.INVALID) {
+				output.println("Please input a valid position [1-9]");
+				continue;
+			}
 			if (board.isCellOccupied(pos)) {
-				ui.print("The cell is occupied!");
-				ui.print("Player#1's turn");
+				output.println("The cell is occupied!");
 				continue;
 			}
 
-			return pos;
+			board.place(pos, mark);
+			return true;
 		}
 	}
 }
