@@ -40,7 +40,7 @@ public class HumanPlayer extends Player {
 			}
 
 			int pos = choice - 1;
-			if (board.getCell(pos) == board.INVALID) {
+			if (board.getCell(pos) == Board.INVALID) {
 				output.println("Please input a valid position [1-9]");
 				continue;
 			}
