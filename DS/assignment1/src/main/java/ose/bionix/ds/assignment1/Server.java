@@ -2,14 +2,12 @@ package ose.bionix.ds.assignment1;
 
 import java.rmi.registry.Registry; 
 import java.rmi.registry.LocateRegistry; 
-import java.rmi.Remote;
 import java.rmi.RemoteException; 
 import java.rmi.server.UnicastRemoteObject; 
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
 import java.time.Duration;
 import java.time.Instant;
-import ose.bionix.ds.assignment1.Service;
 
 public class Server implements Service {
 	public Server() {};

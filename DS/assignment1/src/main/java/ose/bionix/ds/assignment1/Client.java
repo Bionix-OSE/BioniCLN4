@@ -3,7 +3,6 @@ package ose.bionix.ds.assignment1;
 import java.rmi.registry.LocateRegistry; 
 import java.rmi.registry.Registry; 
 import java.time.ZonedDateTime; 
-import ose.bionix.ds.assignment1.Service;
 
 public class Client {
 	private Client() {}
