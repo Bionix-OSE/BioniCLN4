@@ -7,12 +7,11 @@
   <artifactId>skullftp</artifactId>
   <packaging>jar</packaging>
   <!-- Major.Minor.Build.Revision -->
-  <version>0.1.1.0</version>
+  <version>0.1.2.0</version>
   <name>skullftp</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>21</maven.compiler.source>
-    <maven.compiler.target>21</maven.compiler.target>
+    <maven.compiler.release>21</maven.compiler.release>
   </properties>
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
