@@ -2,7 +2,6 @@ package ose.bionix.cn2.skullftp;
 
 import java.io.*;
 import java.net.*;
-// import java.util.*;
 
 public class NetHandler {
 	private Socket socket;
@@ -53,6 +52,9 @@ public class NetHandler {
 		if (respCode == 331) {respCode = sendCmd("PASS " + password);}
 		// Whether we are in is whether we get 230 or not.
 		return respCode == 230;
+	}
+	public boolean login() throws IOException {
+		return login("anonymous", "anonymous@example.com");
 	}
 
 	// Communication functions

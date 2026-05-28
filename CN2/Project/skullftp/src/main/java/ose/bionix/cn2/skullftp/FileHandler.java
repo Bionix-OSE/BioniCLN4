@@ -8,8 +8,20 @@ public class FileHandler {
 	private final NetHandler net;
 	public FileHandler(NetHandler net) {this.net = net;}
 
-	// File operations
-	public List<String> list() throws IOException {
+	// Directory operations
+	public String pwd() throws IOException {
+		int respCode = net.sendCmd("PWD");
+		if (respCode != 257) {
+			throw new IOException("Failed to get current working directory");
+		}
+		int rsta = net.responseBuffer.indexOf('"');
+		int rend = net.responseBuffer.lastIndexOf('"');
+		if (rsta != -1 && rend > rsta) {
+			return net.responseBuffer.substring(rsta + 1, rend);
+		}
+		return null;
+	}
+	public List<String> ls() throws IOException {
 		ArrayList<String> files = new ArrayList<String>();
 		String msgFailed = "Failed to list directory, server responded with: ";
 
@@ -30,6 +42,20 @@ public class FileHandler {
 		net.getResponse();
 		return files;
 	}
+	public boolean cd(String dir) throws IOException {
+		int respCode = net.sendCmd("CWD " + dir);
+		return respCode == 250;
+	}
+	public boolean md(String dir) throws IOException { // mkdir
+		int respCode = net.sendCmd("MKD " + dir);
+		return respCode == 257; // 257 "dir" created
+	}
+	public boolean rd(String dir) throws IOException { // rm -r
+		int respCode = net.sendCmd("RMD " + dir);
+		return respCode == 250;
+	}
+
+	// File operations
 	public boolean get(String fsource, String fdest) throws IOException {
 		Socket socket = null;
 		try {
@@ -51,7 +77,7 @@ public class FileHandler {
 				byte[] fbuff = new byte[4096];
 				int fbytesRead;
 				while ((fbytesRead = strmIn.read(fbuff)) != -1) {strmOut.write(fbuff, 0, fbytesRead);}
-				strmOut.close();
+				strmOut.flush(); strmOut.close();
 			}
 			// Finally, like above, read the completion response
 			net.getResponse();
@@ -60,5 +86,34 @@ public class FileHandler {
 		finally {
 			if (socket != null && !socket.isClosed()) {try {socket.close();} catch (Exception e) {}}
 		}
+	}
+	public boolean put(String fsource, String fdest) throws IOException {
+		// It's get() but reversed
+		Socket socket = null;
+		try {
+			net.sendCmd("TYPE I"); // TODO: See what response code we're gonna get from this mode-switch and handle them accordingly.
+			socket = net.requestPasv();
+			int respCode = net.sendCmd("STOR " + fdest); // We store with STOR instead of RETR
+			if (respCode != 150 && respCode != 125) {
+				if (socket != null); socket.close();
+				return false;
+			}
+			try (InputStream strmIn = new FileInputStream(fsource)) {
+				OutputStream strmOut =socket.getOutputStream();
+				byte[] fbuff = new byte[4096];
+				int fbytesRead;
+				while ((fbytesRead = strmIn.read(fbuff)) != -1) {strmOut.write(fbuff, 0, fbytesRead);}
+				strmOut.flush(); strmOut.close();
+			}
+			net.getResponse();
+			return net.responseBuffer.startsWith("226") || net.responseBuffer.startsWith("250");
+		} catch (IOException e) {return false;}
+		finally {
+			if (socket != null && !socket.isClosed()) {try {socket.close();} catch (Exception e) {}}
+		}
+	}
+	public boolean del(String file) throws IOException {
+		int respCode = net.sendCmd("DELE " + file);
+		return respCode == 250;
 	}
 }
