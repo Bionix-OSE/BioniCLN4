@@ -6,8 +6,8 @@
   <groupId>ose.bionix.cn2</groupId>
   <artifactId>skullftp</artifactId>
   <packaging>jar</packaging>
-  <!-- Major.Minor.Build.Revision -->
-  <version>0.1.3.0</version>
+  <!-- Major.Minor.Patch -->
+  <version>0.1.4</version>
   <name>skullftp</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
