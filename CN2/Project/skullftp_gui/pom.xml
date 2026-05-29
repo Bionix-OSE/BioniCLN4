@@ -4,14 +4,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ose.bionix.cn2</groupId>
-  <artifactId>skullftp_cli</artifactId>
+  <artifactId>skullftp_gui</artifactId>
   <packaging>jar</packaging>
   <!-- Major.Minor.Patch -->
-  <version>0.1.4</version>
-  <name>skullftp_cli</name>
+  <version>1.0</version>
+  <name>skullftp_gui</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.release>25</maven.compiler.release>
   </properties>
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
@@ -39,7 +39,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>ose.bionix.cn2.skullftp_cli.Main</mainClass>
+                <mainClass>ose.bionix.cn2.skullftp.Main</mainClass>
               </manifest>
             </archive>
           </configuration>
