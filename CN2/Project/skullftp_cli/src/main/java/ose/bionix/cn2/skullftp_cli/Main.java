@@ -1,4 +1,4 @@
-package ose.bionix.cn2.skullftp;
+package ose.bionix.cn2.skullftp_cli;
 
 import java.io.*;
 import java.util.*;

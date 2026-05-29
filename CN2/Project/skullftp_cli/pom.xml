@@ -4,11 +4,11 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ose.bionix.cn2</groupId>
-  <artifactId>skullftp</artifactId>
+  <artifactId>skullftp_cli</artifactId>
   <packaging>jar</packaging>
   <!-- Major.Minor.Patch -->
   <version>0.1.4</version>
-  <name>skullftp</name>
+  <name>skullftp_cli</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>21</maven.compiler.release>
