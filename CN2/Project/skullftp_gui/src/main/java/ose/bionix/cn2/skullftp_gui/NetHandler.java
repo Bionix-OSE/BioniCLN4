@@ -47,16 +47,16 @@ public class NetHandler {
 	// Authentication
 	// This will NOT work with RFC 4217's FTP over TLS, as that requires complexed auth
 	// mechanism that it out of scope both for this project and my knowledge
-	public boolean login(String user, String password) throws IOException {
+	public void login(String user, String password) throws IOException {
 		// Send username first
 		int respCode = sendCmd("USER " + user);
 		// If we get 331, means username is OK. Now we send password (in plaintext :], this is why they want TLS btw)
 		if (respCode == 331) {respCode = sendCmd("PASS " + password);}
 		// Whether we are in is whether we get 230 or not.
-		return respCode == 230;
+		if (respCode != 230) {throw new IOException("Authentication failure: " + respCode);}
 	}
-	public boolean login() throws IOException {
-		return login("anonymous", "anon@ftp.net");
+	public void login() throws IOException {
+		login("anonymous", "anon@ftp.net");
 	}
 
 	// Communication functions

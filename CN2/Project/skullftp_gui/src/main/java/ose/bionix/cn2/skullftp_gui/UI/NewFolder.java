@@ -1,7 +1,5 @@
 package ose.bionix.cn2.skullftp_gui.UI;
 
-import ose.bionix.cn2.skullftp_gui.NetHandler;
-
 /*
  * =============== DISCLAIMER! ===============
  * 
@@ -29,47 +27,38 @@ import ose.bionix.cn2.skullftp_gui.NetHandler;
  * the parent package does not contain any of the abovementioned problems.
  */
 
-public class Auth extends javax.swing.JDialog {
+public class NewFolder extends javax.swing.JDialog {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Auth.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewFolder.class.getName());
     private Main UImain;
-    private ose.bionix.cn2.skullftp_gui.NetHandler net;
+    private ose.bionix.cn2.skullftp_gui.FileHandler file;
 
-    public Auth(javax.swing.JFrame parent, boolean modal) {
+    public NewFolder(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    public Auth(javax.swing.JFrame parent, ose.bionix.cn2.skullftp_gui.NetHandler net) {
-        super(parent, true);
-        this.UImain = (Main) parent;
-        this.net = net;
+    public NewFolder(Main UImain, ose.bionix.cn2.skullftp_gui.FileHandler file) {
+        this.UImain = UImain;
+        this.file = file;
         initComponents();
         initListeners();
     }
 
-    private void initListeners() {
-        // "Anonymous" checkbox (grays out cred fields when checked)
-        chkboxAsAnon.addActionListener(e -> {
-            boolean isAnon = chkboxAsAnon.isSelected();
-            fieldUser.setEnabled(!isAnon);
-            fieldPassword.setEnabled(!isAnon);
-        });
-        // Login button
-        buttonLogin.addActionListener(e -> {
-            String user = chkboxAsAnon.isSelected() ? "anonymous" : fieldUser.getText();
-            String pass = chkboxAsAnon.isSelected() ? "anon@ftp.net" : new String(fieldPassword.getPassword());
-            // Dispatch a thread to attempt login to avoid freezing the GUI
+    public void initListeners() {
+        buttonCfm.addActionListener(e -> {
+            String dirname = fieldFname.getText().trim();
+            if (dirname.isEmpty()) return;
+
             new Thread(() -> {
                 try {
-                    net.login(user, pass); 
-                    // Load UI.Main once login successfully
+                    file.sendFileOp("mkdir", dirname);
                     javax.swing.SwingUtilities.invokeLater(() -> {
-                        UImain.onAuth(); 
                         this.dispose();
+                        UImain.updFileList();
                     });
                 } catch (Exception ex) {
                     javax.swing.SwingUtilities.invokeLater(() -> {
-                        javax.swing.JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        javax.swing.JOptionPane.showMessageDialog(this, ex.getMessage());
                     });
                 }
             }).start();
@@ -87,18 +76,15 @@ public class Auth extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        fieldUser = new javax.swing.JTextField();
-        fieldPassword = new javax.swing.JPasswordField();
-        buttonLogin = new javax.swing.JButton();
-        chkboxAsAnon = new javax.swing.JCheckBox();
         textDescription = new javax.swing.JLabel();
+        fieldFname = new javax.swing.JTextField();
+        buttonCfm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
 
-        buttonLogin.setText("Login");
-        chkboxAsAnon.setText("Anonymous login");
-        textDescription.setText("Please authenticate:");
+        textDescription.setText("New Folder name:");
+        fieldFname.setToolTipText("");
+        buttonCfm.setText("Create");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,15 +93,13 @@ public class Auth extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fieldUser)
-                    .addComponent(fieldPassword)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(chkboxAsAnon)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                        .addComponent(buttonLogin))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(textDescription)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 142, Short.MAX_VALUE))
+                    .addComponent(fieldFname)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(buttonCfm)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -124,14 +108,10 @@ public class Auth extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(textDescription)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fieldFname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonLogin)
-                    .addComponent(chkboxAsAnon))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(buttonCfm)
+                .addContainerGap(7, Short.MAX_VALUE))
         );
 
         pack();
@@ -166,10 +146,8 @@ public class Auth extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonLogin;
-    private javax.swing.JCheckBox chkboxAsAnon;
-    private javax.swing.JPasswordField fieldPassword;
-    private javax.swing.JTextField fieldUser;
+    private javax.swing.JButton buttonCfm;
+    private javax.swing.JTextField fieldFname;
     private javax.swing.JLabel textDescription;
     // End of variables declaration//GEN-END:variables
 

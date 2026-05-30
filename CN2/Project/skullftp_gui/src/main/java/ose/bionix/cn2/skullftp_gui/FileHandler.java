@@ -102,7 +102,7 @@ public class FileHandler {
 							date = parseDate(mtdval);
 							break;
 						case "type":
-							isdir = mtdval == "dir";
+							isdir = mtdval.equals("dir");
 							break;
 					}
 				}
