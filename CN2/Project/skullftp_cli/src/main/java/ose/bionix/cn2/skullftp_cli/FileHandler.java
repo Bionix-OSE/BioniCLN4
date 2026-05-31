@@ -30,7 +30,7 @@ public class FileHandler {
 		// Request PASV to get information from
 		Socket socket = net.requestPasv();
 		// Send LIST
-		int respCode = net.sendCmd("MLSD");
+		int respCode = net.sendCmd("LIST");
 		if (respCode != 150 && respCode != 125) {
 			socket.close();
 			throw new IOException(msgFailed + respCode);
