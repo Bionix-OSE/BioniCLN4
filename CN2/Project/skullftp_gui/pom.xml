@@ -39,7 +39,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>ose.bionix.cn2.skullftp.Main</mainClass>
+                <mainClass>ose.bionix.cn2.skullftp_gui.Main</mainClass>
               </manifest>
             </archive>
           </configuration>
