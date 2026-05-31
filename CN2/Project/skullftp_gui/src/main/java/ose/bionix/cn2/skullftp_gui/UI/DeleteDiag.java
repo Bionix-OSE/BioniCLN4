@@ -18,16 +18,19 @@ import java.io.IOException;
  * CALLS TO java.awt ARE **NOT** BREAKING THE ALLOWED LIBRARIES RESTRICTION!
  * javax.swing internally calls java.awt to do its job, including handling events
  * (i.e. javax.swing.SwingUtilities.invokeLater() is just a wrapper for java.awt.EventQueue.invokeLater()).
- * You cannot run ANY GUI without the AWT (Abstract Window Toolkit) library, and as such it is unreasonable
- * to disallow direct calls to what literally makes up the two allowed Swing and JavaFX packages.
+ * Swing is largely built on top of AWT (Abstract Window Toolkit) library, and as such it is impossible
+ * to not call Swing libraries without calling to AWT. Therefore, it would be unreasonable to disallow
+ * direct calls to this library.
  * Both my code and NetBean's generated code makes these calls frequently. For mine at least, I have tried
  * to minimize calls to this library, but it is impossible to not call them at all, as stated above.
+ * If I had used JavaFX, this would have not been a problem...
  * 
  * Thank you for understanding.
  * 
  * This disclaimer is placed at the start of every class file in this package (skullftp_gui.UI). Files in
  * the parent package does not contain any of the abovementioned problems.
  */
+
 
 public class DeleteDiag extends javax.swing.JDialog {
     
