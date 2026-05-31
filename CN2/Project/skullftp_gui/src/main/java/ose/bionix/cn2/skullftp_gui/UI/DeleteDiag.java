@@ -1,6 +1,6 @@
 package ose.bionix.cn2.skullftp_gui.UI;
 
-import ose.bionix.cn2.skullftp_gui.NetHandler;
+import java.io.IOException;
 
 /*
  * =============== DISCLAIMER! ===============
@@ -29,50 +29,50 @@ import ose.bionix.cn2.skullftp_gui.NetHandler;
  * the parent package does not contain any of the abovementioned problems.
  */
 
-public class Auth extends javax.swing.JDialog {
+public class DeleteDiag extends javax.swing.JDialog {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Auth.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DeleteDiag.class.getName());
     private Main UImain;
-    private ose.bionix.cn2.skullftp_gui.NetHandler net;
+    private ose.bionix.cn2.skullftp_gui.FileHandler file;
+    private String fname;
+    private boolean isdir;
 
-    public Auth(javax.swing.JFrame parent, boolean modal) {
+    public DeleteDiag(javax.swing.JFrame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
-    public Auth(javax.swing.JFrame parent, ose.bionix.cn2.skullftp_gui.NetHandler net) {
+    public DeleteDiag(javax.swing.JFrame parent, ose.bionix.cn2.skullftp_gui.FileHandler file, String fname, boolean isdir) {
         super(parent, true);
         this.UImain = (Main) parent;
-        this.net = net;
+        this.file = file;
+        this.fname = fname;
+        this.isdir = isdir;
         initComponents();
         initListeners();
     }
 
-    private void initListeners() {
-        // "Anonymous" checkbox (grays out cred fields when checked)
-        chkboxAsAnon.addActionListener(e -> {
-            boolean isAnon = chkboxAsAnon.isSelected();
-            fieldUser.setEnabled(!isAnon);
-            fieldPassword.setEnabled(!isAnon);
-        });
-        // Login button
-        buttonLogin.addActionListener(e -> {
-            String user = chkboxAsAnon.isSelected() ? "anonymous" : fieldUser.getText();
-            String pass = chkboxAsAnon.isSelected() ? "anon@ftp.net" : new String(fieldPassword.getPassword());
-            // Dispatch a thread to attempt login to avoid freezing the GUI
-            new Thread(() -> {
+    public void initListeners() {
+        // This is where the real deletion logic is
+        buttonNo.addActionListener(e -> this.dispose());
+        buttonYes.addActionListener(e -> {
+            //new Thread(() -> {
                 try {
-                    net.login(user, pass); 
-                    // Load UI.Main once login successfully
+                    if (isdir) {
+                        file.sendFileOp("rmdir", fname);
+                    } else {
+                        file.sendFileOp("del", fname);
+                    }
                     javax.swing.SwingUtilities.invokeLater(() -> {
-                        UImain.onAuth(); 
                         this.dispose();
+                        UImain.updFileList();
                     });
                 } catch (Exception ex) {
                     javax.swing.SwingUtilities.invokeLater(() -> {
-                        javax.swing.JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        javax.swing.JOptionPane.showMessageDialog(this, ex.getMessage());
+                        this.dispose();
                     });
                 }
-            }).start();
+            //}).start();
         });
     }
 
@@ -87,18 +87,19 @@ public class Auth extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        fieldUser = new javax.swing.JTextField();
-        fieldPassword = new javax.swing.JPasswordField();
-        buttonLogin = new javax.swing.JButton();
-        chkboxAsAnon = new javax.swing.JCheckBox();
-        textDescription = new javax.swing.JLabel();
+        buttonYes = new javax.swing.JButton();
+        buttonNo = new javax.swing.JButton();
+        textQn = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
 
-        buttonLogin.setText("Login");
-        chkboxAsAnon.setText("Anonymous login");
-        textDescription.setText("Please authenticate:");
+        buttonYes.setText("Yes");
+        buttonYes.addActionListener(this::buttonYesActionPerformed);
+
+        buttonNo.setText("No");
+
+        textQn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        textQn.setText("Are you sure about this?");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,35 +108,32 @@ public class Auth extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(fieldUser)
-                    .addComponent(fieldPassword)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(chkboxAsAnon)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                        .addComponent(buttonLogin))
+                    .addComponent(textQn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(textDescription)
+                        .addComponent(buttonYes, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonNo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(textDescription)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fieldUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fieldPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(textQn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(buttonLogin)
-                    .addComponent(chkboxAsAnon))
+                    .addComponent(buttonYes)
+                    .addComponent(buttonNo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void buttonYesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonYesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonYesActionPerformed
 
     public static void main(String args[]) {
         /* Set the native look and feel */
@@ -166,11 +164,9 @@ public class Auth extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonLogin;
-    private javax.swing.JCheckBox chkboxAsAnon;
-    private javax.swing.JPasswordField fieldPassword;
-    private javax.swing.JTextField fieldUser;
-    private javax.swing.JLabel textDescription;
+    private javax.swing.JButton buttonNo;
+    private javax.swing.JButton buttonYes;
+    private javax.swing.JLabel textQn;
     // End of variables declaration//GEN-END:variables
 
     // ===== END NETBEANS GENERATED CODE =====
