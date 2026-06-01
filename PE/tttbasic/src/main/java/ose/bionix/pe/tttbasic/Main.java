@@ -1,4 +1,4 @@
-package ose.bionix.pe.tictactoe;
+package ose.bionix.pe.tttbasic;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

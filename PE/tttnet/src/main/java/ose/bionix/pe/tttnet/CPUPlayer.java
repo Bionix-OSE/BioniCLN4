@@ -1,4 +1,4 @@
-package ose.bionix.pe.tictactoe;
+package ose.bionix.pe.tttnet;
 
 public class CPUPlayer extends Player {
 	public CPUPlayer(int mark) {

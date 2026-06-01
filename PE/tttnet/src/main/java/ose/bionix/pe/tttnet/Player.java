@@ -1,4 +1,4 @@
-package ose.bionix.pe.tictactoe;
+package ose.bionix.pe.tttnet;
 
 public abstract class Player {
 	public static final int QUIT = -1;
@@ -11,4 +11,3 @@ public abstract class Player {
 	public int getMark() { return mark; }
 	public abstract boolean chooseMove(Board board);
 }
-	
