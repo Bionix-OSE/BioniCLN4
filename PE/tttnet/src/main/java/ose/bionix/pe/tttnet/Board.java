@@ -1,6 +1,6 @@
 package ose.bionix.pe.tttnet;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
 public class Board {
 	public static final int INVALID = -1;
@@ -9,12 +9,9 @@ public class Board {
 	public static final int O = 2; // Computer
 
 	private final int[] cells;
-	private final PrintStream output;
+	private final PrintWriter output;
 
-	public Board() {
-		this(System.out);
-	}
-	public Board(PrintStream output) {
+	public Board(PrintWriter output) {
 		cells = new int[9];
 		for (int i = 0; i < 9; i++) {
 			cells[i] = EMPTY;

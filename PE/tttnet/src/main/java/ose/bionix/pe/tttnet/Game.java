@@ -1,33 +1,31 @@
 package ose.bionix.pe.tttnet;
 
-import java.io.PrintStream;
+import java.io.PrintWriter;
 
-public class Game {
+public class Game implements Runnable {
 	private final Board board;
 	private final Player player1;
 	private final Player player2;
-	private final PrintStream output;
+	private final PrintWriter output;
+	public int firstPlayer;
 
-	public Game(Board board, Player player1, Player player2) {
-		this(board, player1, player2, System.out);
-	}
-
-	public Game(Board board, Player player1, Player player2, PrintStream output) {
+	public Game(Board board, Player player1, Player player2, PrintWriter out) {
 		this.board = board;
 		this.player1 = player1;
 		this.player2 = player2;
-		this.output = output;
+		this.output = out;
 	}
 
-	public void run(int firstPlayer) {
+	@Override
+	public void run() {
 		Player[] playorder = {player1, player2};
 		int current = firstPlayer;
-		output.println("Hello!");
+		output.println("INFO: Hello!");
 		board.display();
 
 		while (true) {
 			Player activePlayer = playorder[current - 1];
-			output.println("Player" + activePlayer.getMark() + "'s turn");
+			output.println("INFO: Player" + activePlayer.getMark() + "'s turn");
 
 			boolean game = activePlayer.chooseMove(board);
 			if (!game) {
@@ -37,11 +35,11 @@ public class Game {
 
 			int winner = board.checkWin();
 			if (winner != Board.EMPTY) {
-				output.println("Player " + activePlayer.getMark() + " won!");
+				output.println("INFO: Player " + activePlayer.getMark() + " won!");
 				break;
 			}
 			if (board.isBoardFull()) {
-				output.print("It is a draw!");
+				output.print("INFO: It is a draw!");
 				break;
 			}
 

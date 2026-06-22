@@ -1,16 +1,13 @@
 package ose.bionix.pe.tttnet;
 
-import java.io.PrintStream;
-import java.util.Scanner;
+import java.io.PrintWriter;
+import java.io.BufferedReader;
 
 public class HumanPlayer extends Player {
-	private final Scanner input;
-	private final PrintStream output;
+	private final BufferedReader input;
+	private final PrintWriter output;
 
-	public HumanPlayer(int mark, Scanner input) {
-		this(mark, input, System.out);
-	}
-	public HumanPlayer(int mark, Scanner input, PrintStream output) {
+	public HumanPlayer(int mark, BufferedReader input, PrintWriter output) {
 		super(mark);
 		this.input = input;
 		this.output = output;
@@ -18,39 +15,26 @@ public class HumanPlayer extends Player {
 
 	@Override
 	public boolean chooseMove(Board board) {
-		while (true) {
-			String line = null;
+		try {
 			output.print("Input a position [1-9]: ");
+			String line = input.readLine();
+			if (line == null || "q".equals(line)) return false;
+
+			int pos;
 			try {
-				line = input.nextLine().trim();
-			} catch (RuntimeException ex) {
-				output.println("There was an error handling user input.");
+				pos = Integer.parseInt(line.trim());
+				if (pos < 1 || pos > 9) {throw new NumberFormatException();}
+			} catch (Exception e) {
+				output.println("ERROR: Please enter a valid position [1-9]");
+				return chooseMove(board);
 			}
-			if ("q".equals(line)) {
-				output.println("Game over.");
-				return false;
-			}
-
-			int choice;
-			try {
-				choice = Integer.parseInt(line);
-			} catch (NumberFormatException ex) {
-				output.println("Please input a valid number [1-9]");
-				continue;
+			if (board.isCellOccupied(pos - 1)) {
+				output.println("ERROR: Cell is already occupied!");
+				return chooseMove(board);
 			}
 
-			int pos = choice - 1;
-			if (board.getCell(pos) == Board.INVALID) {
-				output.println("Please input a valid position [1-9]");
-				continue;
-			}
-			if (board.isCellOccupied(pos)) {
-				output.println("The cell is occupied!");
-				continue;
-			}
-
-			board.place(pos, mark);
+			board.place(pos - 1, mark);
 			return true;
-		}
+		} catch (Exception e) {return false;}
 	}
 }
