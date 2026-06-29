@@ -21,7 +21,7 @@ public class Main {
 
 		Board board = new Board(output);
 		Scanner input = new Scanner(System.in);
-		HumanPlayer p1 = new HumanPlayer(Board.X, input, output);
+		HumanPlayer1 p1 = new HumanPlayer1(Board.X, input, output);
 		CPUPlayer p2 = new CPUPlayer(Board.O);
 
 		Game game = new Game(board, p1, p2, output);

@@ -8,6 +8,9 @@ public class Game implements Runnable {
 	private final Player player2;
 	private final PrintWriter output;
 	public int firstPlayer;
+	private Player[] playorder;
+	private int current;
+	private boolean finished;
 
 	public Game(Board board, Player player1, Player player2, PrintWriter out) {
 		this.board = board;
@@ -16,34 +19,52 @@ public class Game implements Runnable {
 		this.output = out;
 	}
 
-	@Override
-	public void run() {
-		Player[] playorder = {player1, player2};
-		int current = firstPlayer;
-		output.println("INFO: Hello!");
+	private void initializeTurnOrder() {
+		if (playorder == null) {
+			playorder = new Player[] {player1, player2};
+			current = firstPlayer;
+		}
+	}
+
+	public boolean playNextTurn() {
+		initializeTurnOrder();
+		Player activePlayer = playorder[current - 1];
+		output.println("INFO: Player" + activePlayer.getMark() + "'s turn");
+
+		boolean game = activePlayer.chooseMove(board);
+		if (!game) {
+			finished = true;
+			output.println("QUIT");
+			return false;
+		}
 		board.display();
 
-		while (true) {
-			Player activePlayer = playorder[current - 1];
-			output.println("INFO: Player" + activePlayer.getMark() + "'s turn");
-
-			boolean game = activePlayer.chooseMove(board);
-			if (!game) {
-				return;
-			}
-			board.display();
-
-			int winner = board.checkWin();
-			if (winner != Board.EMPTY) {
-				output.println("INFO: Player " + activePlayer.getMark() + " won!");
-				break;
-			}
-			if (board.isBoardFull()) {
-				output.print("INFO: It is a draw!");
-				break;
-			}
-
-			current = 3 - current;
+		int winner = board.checkWin();
+		if (winner != Board.EMPTY) {
+			output.println("INFO: Player " + activePlayer.getMark() + " won!");
+			finished = true;
+			output.println("QUIT");
+			return false;
 		}
+		if (board.isBoardFull()) {
+			output.println("INFO: It is a draw!");
+			finished = true;
+			output.println("QUIT");
+			return false;
+		}
+
+		current = 3 - current;
+		return true;
+	}
+
+	public boolean isFinished() {
+		return finished;
+	}
+
+	@Override
+	public void run() {
+		output.println("INFO: Hello!");
+		board.display();
+		while (playNextTurn()) {}
 	}
 }

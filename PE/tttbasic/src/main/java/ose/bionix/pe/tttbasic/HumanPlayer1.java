@@ -3,14 +3,14 @@ package ose.bionix.pe.tttbasic;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class HumanPlayer extends Player {
+public class HumanPlayer1 extends Player {
 	private final Scanner input;
 	private final PrintStream output;
 
-	public HumanPlayer(int mark, Scanner input) {
+	public HumanPlayer1(int mark, Scanner input) {
 		this(mark, input, System.out);
 	}
-	public HumanPlayer(int mark, Scanner input, PrintStream output) {
+	public HumanPlayer1(int mark, Scanner input, PrintStream output) {
 		super(mark);
 		this.input = input;
 		this.output = output;

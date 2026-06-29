@@ -3,20 +3,28 @@ package ose.bionix.pe.tttnet;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 
-public class HumanPlayer extends Player {
+public class HumanPlayer1 extends Player {
 	private final BufferedReader input;
 	private final PrintWriter output;
 
-	public HumanPlayer(int mark, BufferedReader input, PrintWriter output) {
+	public HumanPlayer1(int mark, BufferedReader input, PrintWriter output) {
 		super(mark);
 		this.input = input;
 		this.output = output;
 	}
 
+	private void printim(String str) {
+		output.print(str);
+		output.flush();
+	}
+	private void printlnim(String str) {
+		output.println(str);
+		output.flush();
+	}
 	@Override
 	public boolean chooseMove(Board board) {
 		try {
-			output.print("Input a position [1-9]: ");
+			printim("Input a position [1-9]: ");
 			String line = input.readLine();
 			if (line == null || "q".equals(line)) return false;
 
@@ -25,11 +33,11 @@ public class HumanPlayer extends Player {
 				pos = Integer.parseInt(line.trim());
 				if (pos < 1 || pos > 9) {throw new NumberFormatException();}
 			} catch (Exception e) {
-				output.println("ERROR: Please enter a valid position [1-9]");
+				printlnim("ERROR: Please enter a valid position [1-9]");
 				return chooseMove(board);
 			}
 			if (board.isCellOccupied(pos - 1)) {
-				output.println("ERROR: Cell is already occupied!");
+				printlnim("ERROR: Cell is already occupied!");
 				return chooseMove(board);
 			}
 

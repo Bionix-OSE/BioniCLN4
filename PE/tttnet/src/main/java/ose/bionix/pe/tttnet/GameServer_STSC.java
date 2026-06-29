@@ -5,11 +5,11 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class GameServer {
+public class GameServer_STSC {
 	private static final int port = 8080;
-	public int firstPlayer;
+	public int firstPlayer = 1;
 
-	public GameServer() {}
+	public GameServer_STSC() {}
 
 	public void run() {
 		System.out.println("Server starting on port " + port + "...");
@@ -22,7 +22,7 @@ public class GameServer {
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
 			Board board = new Board(out);
-			HumanPlayer p1 = new HumanPlayer(Board.X, in, out);
+			HumanPlayer1 p1 = new HumanPlayer1(Board.X, in, out);
 			CPUPlayer p2 = new CPUPlayer(Board.O);
 			Game game = new Game(board, p1, p2, out);
 			game.firstPlayer = firstPlayer;
