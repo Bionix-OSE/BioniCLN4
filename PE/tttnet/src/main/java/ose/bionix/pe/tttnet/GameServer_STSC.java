@@ -22,7 +22,7 @@ public class GameServer_STSC {
 			PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
 			Board board = new Board(out);
-			HumanPlayer1 p1 = new HumanPlayer1(Board.X, in, out);
+			HumanPlayer p1 = new HumanPlayer(Board.X, in, out);
 			CPUPlayer p2 = new CPUPlayer(Board.O);
 			Game game = new Game(board, p1, p2, out);
 			game.firstPlayer = firstPlayer;

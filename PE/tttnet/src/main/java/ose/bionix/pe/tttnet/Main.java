@@ -17,16 +17,6 @@ public class Main {
 						server.run();
 						break;
 					}
-					case "stmc": {
-						try {
-							GameServer_STMC server = new GameServer_STMC();
-							server.run();
-						} catch (Exception e) {
-							System.err.println(e.getMessage());
-							e.printStackTrace();
-						}
-						break;
-					}
 					default: System.exit(1);
 				}
 				break;

@@ -1,13 +1,13 @@
-package ose.bionix.pe.tttnet;
+package ose.bionix.pe.tttpds;
 
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 
-public class HumanPlayer1 extends Player {
+public class Client_HumanPlayer extends Player {
 	private final BufferedReader input;
 	private final PrintWriter output;
 
-	public HumanPlayer1(int mark, BufferedReader input, PrintWriter output) {
+	public Client_HumanPlayer(int mark, BufferedReader input, PrintWriter output) {
 		super(mark);
 		this.input = input;
 		this.output = output;
