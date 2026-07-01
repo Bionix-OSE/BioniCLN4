@@ -10,20 +10,18 @@ public class Client {
 	private final String host;
 	private final int port;
 	private final Board board;
-	private final PrintStream output;
 
 	public Client(String host, int port) {
 		this.host = host;
 		this.port = port;
 		this.board = new Board();
-		this.output = System.out;
 	}
 
 	private int getCell(int idx) {
 		String boardserialized = board.serialize();
 		return Character.getNumericValue(boardserialized.charAt(idx));
 	}
-	public void display() {
+	public void display(PrintWriter out) {
 		StringBuilder sb = new StringBuilder();
 		for (int r = 0; r < 3; r++) {
 			sb.append("| ");
@@ -40,6 +38,13 @@ public class Client {
 			sb.append(" |");
 			if (r < 2) sb.append('\n');
 		}
-		output.println(sb.toString());
+		out.println(sb.toString());
+	}
+
+	public void play() {
+		try (BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			PrintWriter out = new PrintWriter(System.out, true)) {
+			
+		} catch (Exception e) {}
 	}
 }
