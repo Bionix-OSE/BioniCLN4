@@ -5,7 +5,7 @@
 	<artifactId>tttpds</artifactId>
 	<packaging>jar</packaging>
 	<!-- Major.Minor.Patch -->
-	<version>1.0.0</version>
+	<version>1.1.4</version>
 	<name>tictactoe</name>
 	<url>http://maven.apache.org</url>
 	<build>
@@ -30,7 +30,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>ose.bionix.pe.tttnet.Main</mainClass>
+							<mainClass>ose.bionix.pe.tttpds.Main</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
