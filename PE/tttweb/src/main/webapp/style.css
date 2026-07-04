@@ -1,5 +1,5 @@
 body {
-	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-family: 'Verdana';
 	background-color: #1e1e24;
 	color: #fff;
 	display: flex;
@@ -38,7 +38,10 @@ h2 { color: #a0a0a5; font-weight: 400; margin-bottom: 25px; }
 }
 
 .cell:hover { background-color: #3b3b4a; }
-.cell.occupied { cursor: not-allowed; }
+.cell.occupied {
+	background-color: #3b3b4a;
+	cursor: not-allowed;
+}
 
 button {
 	background-color: #4f46e5;

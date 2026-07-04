@@ -25,7 +25,7 @@ public class Board {
 		}
 		return -1;
 	}
-	public boolean isCellOccupied(int pos) {
+	private boolean isCellOccupied(int pos) {
 		return getCell(pos) != EMPTY;
 	}
 	public boolean place(int pos, int mark) {
@@ -41,7 +41,6 @@ public class Board {
 		return true;
 	}
 	public int checkWin() {
-		if (isBoardFull()) return DRAW;
 		int[][] lines = {
 			{0,1,2}, {3,4,5}, {6,7,8},
 			{0,3,6}, {1,4,7}, {2,5,8},
@@ -51,6 +50,7 @@ public class Board {
 			int a = cells[l[0]], b = cells[l[1]], c = cells[l[2]];
 			if (a != EMPTY && a == b && b == c) return a; // returns X (1) or O (0)
 		}
+		if (isBoardFull()) return DRAW;
 		return EMPTY; // no winner yet
 	}
 
