@@ -1,3 +1,6 @@
+// Client.java: Main code for the client
+// This is what faces the user when they run "tttpds.jar client"
+
 package ose.bionix.pe.tttpds;
 
 import java.io.BufferedReader;
@@ -16,6 +19,8 @@ public class Client {
 		this.board = new Board();
 	}
 
+	// Display functions
+	// These facilitates displaying the board in the terminal
 	private int getCell(int idx) {
 		String boardserialized = board.serialize();
 		return Character.getNumericValue(boardserialized.charAt(idx));
@@ -23,8 +28,8 @@ public class Client {
 	private void display(PrintWriter out) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\n");
-		for (int r = 0; r < 3; r++) {
-			sb.append("| ");
+		for (int r = 0; r < 3; r++) { // This builds a cell |-|
+			sb.append("|");
 			for (int c = 0; c < 3; c++) {
 				int idx = r * 3 + c;
 				String v = switch (getCell(idx)) {
@@ -33,15 +38,21 @@ public class Client {
 					case Board.O -> "O";
 				};
 				sb.append(v);
-				if (c < 2) sb.append(" | ");
+				if (c < 2) sb.append("|");
 			}
 			sb.append(" |");
 			if (r < 2) sb.append('\n');
 		}
 		out.println(sb.toString());
+		// End result looks like this:
+		// |-||-||-|
+		// |-||-||-|
+		// |-||-||-|
 	}
 
+	// Communication functions
 	private String sendRequest(String req) {
+		// Facilitates sending data to the server
 		try (Socket ssock = new Socket(host, port);
 			BufferedReader in = new BufferedReader(new InputStreamReader(ssock.getInputStream()));
 			PrintWriter out = new PrintWriter(ssock.getOutputStream(), true)) {
@@ -50,13 +61,16 @@ public class Client {
 			} catch (Exception e) {return null;}
 	}
 	private String[] parseResponse(String res) {
+		// And this reads the server's responses back, then delimit and populate the values into an array
 		String[] response = res.split(";");
 		if (response.length >= 2) {
+			// Update the local board state as well
 			board.deserialize(response[1]);
 		}
 		return response;
 	}
 
+	// Gameplay logic (NOT the game mechanics - that's server side)
 	public void play() {
 		try (BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			PrintWriter out = new PrintWriter(System.out, true)) {
@@ -72,20 +86,25 @@ public class Client {
 			display(out);
 
 			while (true) {
+				// Let player do their move
 				if (!player.chooseMove(board)) {
 					out.println("Game over.");
 					break;
 				}
 
+				// Serialize the board with the new move, then send it to the server, and wait for its response
 				response = sendRequest(Server.request_UPDATE + ";" + board.serialize());
 				if (response == null) {
 					out.println("ERROR: Lost connection to server.");
 					break;
 				}
+				// Once we got a valid response, parse it (this will also update the local board)
 				String[] resparray = parseResponse(response);
-				String status = resparray[0];
-				int win = Integer.parseInt(resparray[2]);
 
+				// Do checks with the parsed response:
+				String status = resparray[0]; // Game status (playing/ended?)
+				int win = Integer.parseInt(resparray[2]); // Who won or draw? (1/2/3 for X/O/Draw)
+				// Display the board, then end the game based on status & win (or restart the loop for the next move)
 				display(out);
 				if (Server.status_END.equals(status)) {
 					out.println(win == 3 ? "GAME: It's a draw!" : "GAME: Player " + (win == 1 ? "X" : "O") + " won!");

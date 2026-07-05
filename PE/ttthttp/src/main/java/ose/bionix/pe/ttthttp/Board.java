@@ -2,7 +2,7 @@
 // Also includes serialize and deserialize functions to aid with network communications.
 // This class is the exact same across the two versions, except for the package name.
 
-package ose.bionix.pe.tttpds;
+package ose.bionix.pe.ttthttp;
 
 public class Board {
 	public static final int EMPTY = 0;
@@ -55,7 +55,7 @@ public class Board {
 			if (a != EMPTY && a == b && b == c) return a; // Returns X (1) or O (0)
 		}
 		if (isBoardFull()) return DRAW; // If no conditions match, but board full, must be a draw.
-		return EMPTY; // No winner yet
+		return EMPTY; // no winner yet
 	}
 
 	public String serialize() {

@@ -1,7 +1,7 @@
 // Server_CPUPlayer.java
 // This class is the exact same across the two versions, except for the package name.
 
-package ose.bionix.pe.tttpds;
+package ose.bionix.pe.ttthttp;
 
 public class Server_CPUPlayer extends Player {
 	public Server_CPUPlayer(int mark) {

@@ -2,7 +2,7 @@
 // This handles the user interaction portion of the game.
 // It is the exact same across the two versions, except for the package name.
 
-package ose.bionix.pe.tttpds;
+package ose.bionix.pe.ttthttp;
 
 import java.io.PrintWriter;
 import java.io.BufferedReader;
